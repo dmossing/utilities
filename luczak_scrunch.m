@@ -6,17 +6,18 @@ function [L,idx] = luczak_scrunch(M)
 assert(size(M,1)==size(M,2));
 N = size(M,1);
 
-%% fit sorted off-diagonal coefficients in each row to a single exponential. 
+%% average row-wise sorted off-diagonal coefficients
+Mp = reshape(M(~eye(N)),N,N-1);
+Msorted = fliplr(sort(Mp,2)); % sort off-diagonals in each row of M in descending order
+to_fit = mean(Msorted);
+% f = fit((1:N-1)',to_fit(:),'exp1');
 
-Msorted = fliplr(sortrows(M(~eye(N))); % sort off-diagonals in each row of M in descending order
-to_fit = mean(Msorted(:,1:end-1),1);
-f = fit(1:N-1,to_fit,'exp1');
-
-%% construct a Toeplitz matrix with exp. decaying coefficients.
+%% construct a Toeplitz matrix matching the mean row-wise sorted correlation coefficients
 
 T = zeros(N);
 for k=1:N-1
-    T((k*N+1):(N+1):end) = f.a*exp(k*f.b);
+%     T((k*N+1):(N+1):end) = f.a*exp(k*f.b);
+    T((k*N+1):(N+1):end) = to_fit(k);
 end
 T = T + T';
 
@@ -24,5 +25,7 @@ T = T + T';
 
 % need to figure out how to do this in MATLAB!
 
+% distfun = @(X)norm(X-repmat(T,1,1,size(X,3)));
+distfun = @(X)norm(X-T);
 Mp = M;
-Mp(eye(N)) = 0;
+Mp(eye(N)==1) = 0;
