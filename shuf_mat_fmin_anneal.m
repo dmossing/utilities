@@ -1,8 +1,8 @@
-function Mfinal = shuf_mat_fmin_anneal(M,T,temps)
+function [Mfinal,this_perm] = shuf_mat_fmin_anneal(M,T,temps)
 % attempts to find an optimal permutation of rows and columns to minimize
 % frob. norm ||M-T|| over a symmetric input matrix M, by annealing
 if nargin < 3 || isempty(temps)
-    temps = [1:-0.001:0.001 zeros(1,100000)];
+    temps = zeros(1,10000);
 end
 assert(all(all(abs(M-M')<1e-10)));
 N = size(M,1);
@@ -24,14 +24,14 @@ for t=1:numel(temps)
         end
         this_perm = cand_perm;
         this_cost = cand_cost;
-        subplot(1,2,1);
-        imagesc(M(this_perm,this_perm));
-        xlabel(num2str(temps(t)))
-        subplot(1,2,2);
-        imagesc(T)
-        xlabel(num2str(this_cost))
-        pause(0.001)
+%         subplot(1,2,1);
+%         imagesc(M(this_perm,this_perm));
+%         xlabel(num2str(temps(t)))
+%         subplot(1,2,2);
+%         imagesc(T)
+%         xlabel(num2str(this_cost))
+%         pause(0.001)
     end
 end
-Mfinal = M(this_perm);
+Mfinal = M(this_perm,this_perm);
 end
