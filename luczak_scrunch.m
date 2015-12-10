@@ -26,6 +26,8 @@ T = T + T';
 % need to figure out how to do this in MATLAB!
 
 % distfun = @(X)norm(X-repmat(T,1,1,size(X,3)));
-distfun = @(X)norm(X-T);
+% distfun = @(X)norm(X-T);
+
 Mp = M;
 Mp(eye(N)==1) = 0;
+[L,idx] = shuf_mat_fmin_anneal(Mp,T);
