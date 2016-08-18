@@ -1,0 +1,23 @@
+function [M,T] = guiregister2D(A,B)
+% register 2 images in x and y through a scaling, rotation, and translation
+subplot(1,2,1)
+imagesc(A)
+subplot(1,2,2)
+imagesc(B)
+X = [];
+Y = [];
+
+% keepgoing = 1;
+
+disp('click ten pairs of points')
+for i=1:10
+    subplot(1,2,1)
+    [x1,y1] = ginput(1);
+    subplot(1,2,2)
+    [x2,y2] = ginput(1);
+    X = cat(2,X,[x1; y1]);
+    Y = cat(2,Y,[x2; y2]);
+end
+
+[M,T] = ptcloudSRT(X,Y);
+end
