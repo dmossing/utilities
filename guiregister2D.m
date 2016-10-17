@@ -9,8 +9,11 @@ Y = [];
 
 % keepgoing = 1;
 
-disp('click ten pairs of points')
-for i=1:10
+ptno = input('How many pairs of points?')
+
+disp(sprintf('click %d pairs of points',ptno))
+
+for i=1:ptno
     subplot(1,2,1)
     [x1,y1] = ginput(1);
     subplot(1,2,2)
