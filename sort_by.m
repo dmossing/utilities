@@ -1,5 +1,7 @@
 function aux = sort_by(idx)
-idx = idx(:);
-aux = sortrows([idx [1:numel(idx)]']);
-aux = aux(:,2);
+if size(idx,1)==1 || size(idx,2)==1
+    idx = idx(:);
+end
+aux = sortrows([idx [1:size(idx,1)]']);
+aux = aux(:,end);
 end

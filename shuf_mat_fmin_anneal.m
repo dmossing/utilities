@@ -16,21 +16,21 @@ for t=1:numel(temps)
     cand_perm(schwip) = cand_perm(schwap);
     cand_cost = norm(M(cand_perm,cand_perm)-T);
     dcost = cand_cost-this_cost;
-    %     dcost = norm(M(cand_perm(schwip),cand_perm)-T(schwip,:)) ...
-    %         - norm(M(this_perm(schwip),this_perm)-T(schwip,:));
+%          dcost = norm(M(cand_perm(schwip),cand_perm)-T(schwip,:),1) ...
+%              - norm(M(this_perm(schwip),this_perm)-T(schwip,:),1);
     if rand < exp(-dcost/temps(t))
         if dcost > 0 & temps(t) == 0
             disp('watch out')
         end
         this_perm = cand_perm;
         this_cost = cand_cost;
-%         subplot(1,2,1);
-%         imagesc(M(this_perm,this_perm));
-%         xlabel(num2str(temps(t)))
-%         subplot(1,2,2);
-%         imagesc(T)
-%         xlabel(num2str(this_cost))
-%         pause(0.001)
+        subplot(1,2,1);
+        imagesc(M(this_perm,this_perm));
+        xlabel(num2str(temps(t)))
+        subplot(1,2,2);
+        imagesc(T)
+        xlabel(num2str(this_cost))
+        pause(0.001)
     end
 end
 Mfinal = M(this_perm,this_perm);

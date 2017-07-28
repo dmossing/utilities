@@ -29,5 +29,8 @@ T = T + T';
 % distfun = @(X)norm(X-T);
 
 Mp = M;
+[~,first_guess] = sort(Mp(randperm(N,1),:));
+first_guess = fliplr(first_guess);
 Mp(eye(N)==1) = 0;
-[L,idx] = shuf_mat_fmin_anneal(Mp,T);
+[L,idx] = shuf_mat_fmin_anneal(Mp(first_guess,first_guess),T);
+idx = first_guess(idx);
